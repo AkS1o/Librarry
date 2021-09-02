@@ -42,7 +42,7 @@ namespace Librarry.Controllers
         [HttpPost("add-book")]
         public IActionResult AddBook([FromBody] BookVM bookVM)
         {
-            _booksService.AddBook(bookVM);
+            _booksService.AddBookWithAuthors(bookVM);
             return Ok();
         }
 

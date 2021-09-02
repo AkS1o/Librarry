@@ -14,10 +14,9 @@ namespace Librarry.Data.Models.ViewModels
         public int? Rate { get; set; }
         public string Genre { get; set; }
         public string ImageURL { get; set; }
-        public DateTime DateAdded { get; set; }
 
         public int PublisherId { get; set; }
-        public List<int> IdOfAuthors { get; set; }
+        public List<int> AuthorIds { get; set; }
     }
 
     public class BookWithAuthorsVM
@@ -29,9 +28,8 @@ namespace Librarry.Data.Models.ViewModels
         public int? Rate { get; set; }
         public string Genre { get; set; }
         public string ImageURL { get; set; }
-        public DateTime DateAdded { get; set; }
 
         public string PublisherName { get; set; }
-        public List<string> NamesOfAuthors { get; set; }
+        public List<string> AuthorNames { get; set; }
     }
 }

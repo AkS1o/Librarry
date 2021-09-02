@@ -13,6 +13,6 @@ namespace Librarry.Data.Models.ViewModels
     public class AuthorWithBookVM
     {
         public string FullName { get; set; }
-       
+        public List<string> BookTitles { get; set; }
     }
 }

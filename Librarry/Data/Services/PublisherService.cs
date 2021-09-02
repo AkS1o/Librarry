@@ -10,13 +10,14 @@ namespace Librarry.Data.Services
     public class PublisherService
     {
         private readonly AppDbContext _context;
+        private const int NumberOfElementsInPage = 6;
 
         public PublisherService(AppDbContext context)
         {
             _context = context;
         }
 
-        public CustomPublishersVM GetAllPublishers(string sortBy, string searchString, int pageNumber)
+        public CustomPublishersVM GetAllPublishers(string sortBy, string searchString, int? pageNumber)
         {
             CustomPublishersVM customPublishersVM = new CustomPublishersVM();
             List<Publisher> publishers = publishers = _context.Publishers.ToList();
@@ -24,17 +25,14 @@ namespace Librarry.Data.Services
             if (!string.IsNullOrEmpty(searchString))
                 publishers = publishers.Where(p => p.Name.Contains(searchString)).ToList();
 
-
             if (sortBy == "as")
                 publishers = publishers.OrderBy(p => p.Name).ToList();
             else if (sortBy == "desc")
                 publishers = publishers.OrderByDescending(p => p.Name).ToList();
 
-
             customPublishersVM.CountPublishers = publishers.Count();
 
-
-            if (pageNumber <= 1)
+            if (pageNumber == null || pageNumber <= 1)
             {
                 customPublishersVM.Page = $"Page: {1}/{customPublishersVM.CountPublishers / 6} ";
                 customPublishersVM.Publishers = publishers.Take(6).ToList();
@@ -42,7 +40,7 @@ namespace Librarry.Data.Services
             else
             {
                 customPublishersVM.Page = $"Page: {pageNumber}/{customPublishersVM.CountPublishers / 6} ";
-                customPublishersVM.Publishers = publishers.Skip(6 * pageNumber).Take(6).ToList();
+                customPublishersVM.Publishers = publishers.Skip(6 * (pageNumber - 1) ?? 0).Take(6).ToList();
             }
 
             return customPublishersVM;

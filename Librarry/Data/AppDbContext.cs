@@ -26,7 +26,6 @@ namespace Librarry.Data
                 .WithMany(ba => ba.BookAuthors)
                 .HasForeignKey(bi => bi.AuthorId);
             base.OnModelCreating(modelBuilder);
-
         }
 
         public DbSet<Author> Authors { get; set; }

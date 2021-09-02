@@ -28,36 +28,36 @@ namespace Librarry.Data.Services
                 Title = book.Title,
                 Description = book.Description,
                 IsRead = book.IsRead,
-                DateRead = book.DateRead,
-                Rate = book.Rate,
+                DateRead = book.IsRead ? book.DateRead.Value : null,
+                Rate = book.IsRead ? book.Rate.Value : null,
                 Genre = book.Genre,
                 ImageURL = book.ImageURL,
                 PublisherName = book.Publisher.Name,
-                NamesOfAuthors = book.BookAuthors.Select(n => n.Author.FullName).ToList()
+                AuthorNames = book.BookAuthors.Select(n => n.Author.FullName).ToList()
             }).FirstOrDefault();
 
             return _book;
         }
 
-        public void AddBook(BookVM bookVM)
+        public void AddBookWithAuthors(BookVM bookVM)
         {
             var _book = new Book()
             {
                 Title = bookVM.Title,
                 Description = bookVM.Description,
                 IsRead = bookVM.IsRead,
-                DateRead = bookVM.DateRead,
-                Rate = bookVM.Rate,
+                DateRead = bookVM.IsRead ? bookVM.DateRead.Value : null,
+                Rate = bookVM.IsRead ? bookVM.Rate.Value : null,
                 Genre = bookVM.Genre,
                 ImageURL = bookVM.ImageURL,
-                DateAdded = bookVM.DateAdded,
+                DateAdded = DateTime.Now,
+                PublisherId = bookVM.PublisherId
             };
 
             _context.Books.Add(_book);
             _context.SaveChanges();
 
-
-            foreach (var id in bookVM.IdOfAuthors)
+            foreach (var id in bookVM.AuthorIds)
             {
                 var _bookAuthor = new BookAuthor()
                 {
@@ -83,7 +83,7 @@ namespace Librarry.Data.Services
                 _book.Rate = bookVM.Rate;
                 _book.Genre = bookVM.Genre;
                 _book.ImageURL = bookVM.ImageURL;
-                _book.DateAdded = bookVM.DateAdded;
+                _book.DateAdded = DateTime.Now;
 
                 _context.SaveChanges();
             }
